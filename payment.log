@@ -1,0 +1,2 @@
+2019-05-02 09:20:21.790 ERROR 46580 --- [main] o.s.b.l.LoggingApplicationListener       : Cannot set level: DEBUG  for 'org.apache.commons.dbcp2'
+2019-05-02 09:20:45.923 ERROR 46604 --- [main] o.s.b.l.LoggingApplicationListener       : Cannot set level: DEBUG  for 'org.apache.commons.dbcp2'
