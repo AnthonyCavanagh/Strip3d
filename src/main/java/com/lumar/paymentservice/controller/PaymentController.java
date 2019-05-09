@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.lumar.paymentservice.model.CardDetails;
 import com.lumar.paymentservice.model.PaymentForm;
 import com.lumar.paymentservice.model.PaymentIntentForm;
 import com.lumar.paymentservice.services.StripeService;
 import com.stripe.model.Charge;
 import com.stripe.model.PaymentIntent;
-import com.stripe.model.Token;
+
 
 
 import org.springframework.ui.ModelMap;
@@ -44,24 +43,13 @@ public class PaymentController {
 		PaymentIntent intent = paymentService.createPaymentIntent(intentForm);
 		String clientSecret = intent.getClientSecret();
 		logger.info(clientSecret);
-		ModelAndView modelView = new ModelAndView("PaymentCardForm");
+		ModelAndView modelView = new ModelAndView("PaymentCheckCardForm");
 		modelView.addObject("clientSecret", clientSecret);
 		return modelView;
 	}
 	 
-	@RequestMapping(value = "/createPayment", method = RequestMethod.POST)
-	public ModelAndView submit(@Valid @ModelAttribute("cardDetails") CardDetails card, BindingResult result, ModelMap model)  {
-		if (result.hasErrors()) {
-			
-		}
-		Token token = paymentService.getToken(card);
-		PaymentForm form = new PaymentForm();
-		logger.info(token.toString());
-		form.setStripeToken(token.getId());
-		return new ModelAndView("PaymentForm", "paymentForm", form);
-	}
 	
-	@RequestMapping(value = "/sendPayment", method = RequestMethod.POST)
+	@RequestMapping(value = "/paymentCompleted", method = RequestMethod.POST)
 	public ModelAndView submitPayment(@Valid @ModelAttribute("paymentForm") PaymentForm payment, BindingResult result, ModelMap model)  {
 		if (result.hasErrors()) {
 			
